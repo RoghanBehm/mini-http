@@ -106,7 +106,7 @@ void handle_route(const std::string& method, const std::string& path, const std:
     } else {
         first = slug;
     }
-
+    
     if (slug.empty()) {
         rep << "HTTP/1.1 200 OK\r\n\r\n";
     } else if (first == "echo") {
