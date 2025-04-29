@@ -5,7 +5,7 @@ A minimal, handwritten HTTP/1.1 server.
 - Basic routing (`/echo`, `/user-agent`, `/files`)
 - File serving and POST file upload
 - Optional gzip compression (Accept-Encoding: gzip)
-- Thread pool for concurrent client handling
+- Concurrency handled via threadpool
 
 | Header | Purpose |
 |--------|---------|
