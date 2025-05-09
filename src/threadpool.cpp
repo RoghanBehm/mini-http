@@ -1,4 +1,5 @@
-#include "threadpool.h"
+#include "threadpool.hpp"
+
 
 
 ThreadPool::ThreadPool(size_t num_threads) {
@@ -16,7 +17,7 @@ ThreadPool::ThreadPool(size_t num_threads) {
                         return;
                     }
 
-                    task = move(tasks_.front());
+                    task = std::move(tasks_.front());
                     tasks_.pop();
                 }
 
@@ -42,7 +43,7 @@ ThreadPool::~ThreadPool() {
 void ThreadPool::enqueue(std::function<void()> task) {
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        tasks_.emplace(move(task)); // move tranfers ownership of task into tasks_ queue
+        tasks_.emplace(std::move(task)); // move tranfers ownership of task into tasks_ queue
     }
     cv_.notify_one();
 }

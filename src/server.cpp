@@ -7,63 +7,13 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <vector>
 #include <filesystem> 
 #include <fstream>
-#include <zlib.h>
-#include "threadpool.h"
+#include "gzip.hpp"
+#include "threadpool.hpp"
+#include "parsing.hpp"
+#include "response.hpp"
 
-void gzip_compress(const char *input, size_t inputLength, unsigned char *output, size_t *outputLength) {
-    z_stream stream = {0};
-    deflateInit2(&stream, Z_BEST_COMPRESSION, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY);
-
-    stream.next_in = reinterpret_cast<Bytef*>(const_cast<char*>(input));
-    stream.avail_in = inputLength;
-
-    stream.next_out = output;
-    stream.avail_out = *outputLength;
-
-    deflate(&stream, Z_FINISH);
-    *outputLength = stream.total_out;
-
-    deflateEnd(&stream);
-}
-
-std::string parse_request(const std::string& req, const std::string& start_token) {
-    std::size_t start = req.find(start_token);
-    if (start != std::string::npos) {
-        start += start_token.length();
-        std::size_t end = req.find("\r\n", start);
-        return req.substr(start, end - start);
-    }
-    return "";
-}
-
-void send_response(std::ostringstream& rep, const std::string& body, std::string content_type, bool compress, bool close_c) {
-    std::vector<unsigned char> compressed;
-    size_t length = 0;
-
-    if (compress) {
-        size_t max_size = compressBound(body.size()) + 18;
-        compressed.resize(max_size);
-        gzip_compress(body.data(), body.size(), compressed.data(), &max_size);
-        compressed.resize(max_size);
-        length = compressed.size();
-    } else {
-        length = body.size();
-    }
-
-    rep << "HTTP/1.1 200 OK\r\n"
-        << "Content-Type: " << content_type << "\r\n";
-    if (close_c) rep << "Connection: close\r\n";
-    if (compress) rep << "Content-Encoding: gzip\r\n";
-    rep << "Content-Length: " << length << "\r\n\r\n";
-
-    if (compress)
-        rep.write(reinterpret_cast<const char*>(compressed.data()), compressed.size());
-    else
-        rep << body;
-}
 
 std::string read_request(int client_fd) {
     char buffer[4096];
@@ -74,26 +24,6 @@ std::string read_request(int client_fd) {
     return std::string(buffer, bytes_received);
 }
 
-void parse_request_line(const std::string& request, std::string& method, std::string& path, std::string& protocol) {
-    std::istringstream stream(request);
-    stream >> method >> path >> protocol;
-}
-
-bool should_compress(const std::string& request) {
-    std::string compression_method = parse_request(request, "Accept-Encoding: ");
-    return compression_method.find("gzip") != std::string::npos;
-}
-
-bool should_close(const std::string& request) {
-    return parse_request(request, "Connection: ") == "close";
-}
-
-
-int extract_int_header(const std::string& request, const std::string& key) {
-    std::string val = parse_request(request, key);
-    if (!val.empty() && val.back() == '\r') val.pop_back();
-    return std::stoi(val);
-}
 
 void handle_route(const std::string& method, const std::string& path, const std::string& request,
                   std::ostringstream& rep, const std::string& root_dir, bool compress, bool close_c) {
@@ -235,7 +165,7 @@ int main(int argc, char **argv) {
     
     
     if (client_fd < 0) {
-      // handle error
+      // need to handle error here
       continue;
     }
 
