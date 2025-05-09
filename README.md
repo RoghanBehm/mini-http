@@ -15,3 +15,9 @@ A minimal, handwritten HTTP/1.1 server.
 | `Connection` | Supports `close`, connections stay open by default |
 | `Content-Length` | Used to determine POST request body size |
 | `Content-Type` | Validates uploaded data in POST requests (`application/octet-stream`) |
+
+
+### Compiling
+From within the `src` directory, run `g++ -o server gzip.cpp parsing.cpp response.cpp threadpool.cpp server.cpp -lz`
+- -lz links against zlib library 
+    - Install zlib with `sudo apt install zlib1g-dev` on Debian systems
