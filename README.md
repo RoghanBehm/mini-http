@@ -18,6 +18,6 @@ A minimal, handwritten HTTP/1.1 server.
 
 
 ### Compiling
-From within the `src` directory, run `g++ -o server gzip.cpp parsing.cpp response.cpp threadpool.cpp server.cpp -lz`
-- -lz links against zlib library 
-    - Install zlib with `sudo apt install zlib1g-dev` on Debian systems
+- Install zlib development package
+- Run `make`
+    - Developed on a Linux system, but Windows compilation should work with MinGW or MSYS2.

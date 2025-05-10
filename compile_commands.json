@@ -1,0 +1,87 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/gzip.o",
+      "src/gzip.cpp"
+    ],
+    "directory": "/home/roghan/repo/http-server_old/mini-http",
+    "file": "/home/roghan/repo/http-server_old/mini-http/src/gzip.cpp",
+    "output": "/home/roghan/repo/http-server_old/mini-http/build/gzip.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/parsing.o",
+      "src/parsing.cpp"
+    ],
+    "directory": "/home/roghan/repo/http-server_old/mini-http",
+    "file": "/home/roghan/repo/http-server_old/mini-http/src/parsing.cpp",
+    "output": "/home/roghan/repo/http-server_old/mini-http/build/parsing.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/response.o",
+      "src/response.cpp"
+    ],
+    "directory": "/home/roghan/repo/http-server_old/mini-http",
+    "file": "/home/roghan/repo/http-server_old/mini-http/src/response.cpp",
+    "output": "/home/roghan/repo/http-server_old/mini-http/build/response.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/server.o",
+      "src/server.cpp"
+    ],
+    "directory": "/home/roghan/repo/http-server_old/mini-http",
+    "file": "/home/roghan/repo/http-server_old/mini-http/src/server.cpp",
+    "output": "/home/roghan/repo/http-server_old/mini-http/build/server.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/threadpool.o",
+      "src/threadpool.cpp"
+    ],
+    "directory": "/home/roghan/repo/http-server_old/mini-http",
+    "file": "/home/roghan/repo/http-server_old/mini-http/src/threadpool.cpp",
+    "output": "/home/roghan/repo/http-server_old/mini-http/build/threadpool.o"
+  }
+]
